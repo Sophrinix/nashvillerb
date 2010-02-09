@@ -1,0 +1,28 @@
+ <div class="pageHeader"><%= @event.title %></div>
+<div id="<%= dom_id @event %>" class="entry clearing">
+  <div class="meta">
+    <div class="goBack">
+      <%= link_to "&lt;&lt; Go Back To See All Events", calendar_events_path(@section) %>
+    </div>
+      <div id="eventTime">
+    <% if @event.all_day? %>
+      <span class="all_day"><%= t(:'adva.calendar.titles.all_day') %></span>
+    <% end %>
+    <% if event_dates_from_to(@event)[1].blank? -%>
+      <%= datetime_with_microformat(event_dates_from_to(@event)[0], :format => "%m/%e/%G @ %I:%M%p") %>
+    <% else -%>
+      <%= t(:'adva.calendar.from_to', :start_date => datetime_with_microformat(event_dates_from_to(@event)[0], :format => "%m/%e/%G @ %I:%M%p"), :end_date => datetime_with_microformat(event_dates_from_to(@event)[1], :format => "%m/%e/%G @ %I:%M%p")) %>
+    <% end -%>
+    </div>
+    <p id="eventCategories">
+      <%= links_to_content_categories(@event, :'adva.common.content_categories') %><br />
+      <%= links_to_content_tags(@event, :'adva.common.content_tags') %>
+    </p>
+  </div>
+  <div class="content">
+    <span class="title">Host:</span> <%= h(@event.host) %> <br>
+    <span class="title">Location:</span> <%= h(@event.location) %> <br>
+    <%= @event.body_html %>
+  </div>
+</div>
+

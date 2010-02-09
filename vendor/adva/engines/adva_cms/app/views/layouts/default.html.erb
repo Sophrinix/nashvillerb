@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html> 
+<head> 
+<title>Alicia Boswell: Model Extraordinaire</title> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+                       
+    <%= javascript_include_tag :common %>
+    <link href="/stylesheets/jquery.jcarousel.css" media="all" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/javascripts/jquery-1.4.min.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.jcarousel.js"></script>
+<%= stylesheet_link_tag    :simple %>
+
+<link type="text/css" media="screen" rel="stylesheet" href="/stylesheets/colorbox.css" /> 
+<script type="text/javascript" src="/javascripts/jquery.colorbox-min.js"></script> 
+<script type="text/javascript">
+
+$(document).ready(function(){
+				$("a[rel='example4']").colorbox({slideshow:true,speed:1250});
+			
+});
+
+var mycarousel_itemList = [
+  
+  <%
+  num = 0
+  CalendarEvent.find(:all,:conditions=>['start_date > ?',DateTime.now],:order=>'start_date').each do |x|
+  %>
+   <%= %Q!{text: '<b>Event</b><br />#{x.title[0..10]}...<br />#{datetime_with_microformat(x.start_date, :format => (x.all_day? ? :mdy : "%m/%e/%G @ %I:%M%p"))}<br /><a href="/calendar/event/#{x.permalink}">View Event</a>'},! %>
+  <%
+    num = num + 1
+  end
+  %>
+    
+];
+ 
+function mycarousel_itemVisibleInCallback(carousel, item, i, state, evt)
+{
+    // The index() method calculates the index from a
+    // given index who is out of the actual item range.
+    var idx = carousel.index(i, mycarousel_itemList.length);
+    carousel.add(i, mycarousel_getItemHTML(mycarousel_itemList[idx - 1]));
+};
+ 
+function mycarousel_itemVisibleOutCallback(carousel, item, i, state, evt)
+{
+    carousel.remove(i);
+};
+ 
+/**
+ * Item html creation helper.
+ */
+function mycarousel_getItemHTML(item)
+{
+    return item.text;
+};
+ 
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        wrap: 'circular',
+        auto: 10,
+        scroll: 5,
+        itemVisibleInCallback: {onBeforeAnimation: mycarousel_itemVisibleInCallback},
+        itemVisibleOutCallback: {onAfterAnimation: mycarousel_itemVisibleOutCallback}
+    });
+});
+ 
+</script>
+</head> 
+<body> 
+<div id="wrapper"> 
+  <div id="insidewrapper"> 
+    <div id="header"> 
+      <div id="headerlogo"></div>
+      <div class="clear">
+      <div id="navigation">
+        <div id="headLinks"
+          <span id="navLinks">
+            <%= Menus::Sections.new.build(self).root.render(:id => 'sections') %>
+           
+          </span>
+        </div>
+        <br class="backfix" />
+       
+       
+        <div id="newsFeed">
+          <div id="newsFeed_content">
+              <ul id="mycarousel" class="jcarousel-skin-tango"> 
+
+             </ul> 
+          </div>
+        </div>
+      </div>
+      <div id="headerlogo2"></div> 
+ 
+      <br class="backfix" /> 
+    </div> 
+    <div class="clear"> 
+    <div id="content"> 
+        <div id="main">
+            <%= yield %>
+  
+        </div> 
+ 
+ 
+
+
+         
+    </div> 
+
+    <div id="footer"> 
+     <%= render :partial => 'shared/footer' %>
+    </div> 
+    
+    <br class="backfix" /> 
+    </div> 
+    <br class="backfix" /> 
+  </div>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-3999656-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+
+</html> 

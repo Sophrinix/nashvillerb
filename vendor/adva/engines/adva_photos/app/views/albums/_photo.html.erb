@@ -1,0 +1,11 @@
+<% if photo %>
+  <div id="<%= dom_id photo %>" class="photoSmall">
+
+			<% if mode == :single -%>
+        <%= link_to(image_tag(photo.base_url(:large)), photo.base_url, :target => '_blank') %>
+			<% else -%>
+				<%= link_to(image_tag(photo.base_url(:tiny)), photo.base_url(:large),:rel=>
+			         'example4',:title=>photo.title) %>
+			<% end %>
+  </div>
+<% end %>

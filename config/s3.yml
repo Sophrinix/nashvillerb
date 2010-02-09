@@ -1,0 +1,11 @@
+production:
+  access_key_id: dsafdsfasdfdsads
+  secret_access_key: fdsfdsfsdafdaffds
+  bucket: xxxxx
+  cname_bucket: false
+
+development:
+  access_key_id: dsafdsfasdfdsads
+  secret_access_key: fdsfdsfsdafdaffds
+  bucket: xxxxx
+  cname_bucket: false
